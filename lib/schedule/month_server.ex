@@ -19,4 +19,16 @@ defmodule Schedule.MonthServer do
   def handle_call({:get}, _from, months) do
     {:reply, months, months}
   end
+
+  def handle_cast({:update, date, new_data}, month) do
+    {:noreply, Map.put(month, date, new_data)}
+  end
+
+  def handle_call({:get_day, date}, _from, months ) do
+    {:reply, Map.get(months, date) , months}
+  end
+
+  def handle_cast({:reset, default}, month) do
+    {:noreply, Map.merge(month, default )}
+  end
 end

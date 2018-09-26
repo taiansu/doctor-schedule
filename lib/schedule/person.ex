@@ -2,6 +2,8 @@ defmodule Schedule.Person do
   use Timex
 
   defstruct current_point: 0,
+    holidays_count: 0,
+    max_holidays: 1,
     max_points: 8,
     reserve_days: [],
     weekday_reserve: [],
