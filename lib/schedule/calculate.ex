@@ -62,12 +62,19 @@ defmodule Schedule.Calculate do
 
 
   # calculte
+  def get_result(0, _people, _month) do
+    {:error, "there is no result"}
+  end
   def get_result(n, default_people, default_month) do
-    reset_people(default_people)
-    reset_month(default_month)
-    set_the_holiday(n)
-    set_the_ordinary(n)
-    {:ok, get_current_month}
+    if ( get_current_month |> filter_no_person_day ) > 0 do
+      reset_people(default_people)
+      reset_month(default_month)
+      set_the_holiday(n)
+      set_the_ordinary(n)
+      get_result(n - 1, default_people, default_month)
+    else
+      {:ok, get_current_month}
+    end
   end
 
   def set_the_holiday(n) do
@@ -124,7 +131,7 @@ defmodule Schedule.Calculate do
       {pick_id, person_info} = get_current_people
       |> Enum.random()
       if can_be_reserved_ordinary?(person_info, elem(date, 0)) do
-        new_point = person_info.current_point + 2
+        new_point = person_info.current_point + 1
         duty_days = [ elem(date,0) | person_info.duty_days]
         new_days = %{ elem(date, 1) | person: pick_id }
         update_person(pick_id, %{person_info | current_point: new_point, duty_days: duty_days})
@@ -184,7 +191,11 @@ defmodule Schedule.Calculate do
     # return keyword list
     defp filter_holidays(month) do
       Enum.filter(month, fn {date, value} -> value.is_holiday  end)
+    end
 
+    defp filter_no_person_day(month) do
+      Stream.filter(month, fn {date, value} -> value.person == :D0000 end)
+      |> Enum.count
     end
 
 end
