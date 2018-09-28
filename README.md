@@ -29,9 +29,14 @@
 
 
 進階：
-門診避開(用星期幾)
+門診避開(用星期幾), done
 cover 班的功能
 
 
 ## elixir
 agent, genserver to store state
+
+## todo
+- add phoenix
+- add ecto with sqlite to save data
+- export maps to json?

@@ -72,6 +72,7 @@ defmodule Schedule.Calculate do
       set_the_holiday(n)
       set_the_ordinary(n)
       get_result(n - 1, default_people, default_month)
+      IO.puts "#{n - 1} left"
     else
       {:ok, get_current_month}
     end
@@ -117,8 +118,6 @@ defmodule Schedule.Calculate do
         update_person(pick_id, %{person_info | current_point: new_point, duty_days: duty_days, holidays_count: add_holiday })
         update_month(elem(date, 0), new_days)
       else
-        IO.puts "#{n - 1} left"
-        IO.puts "#{pick_id} does not fit #{elem(date, 0)}"
         seize_holiday(n - 1 , date)
       end
     end

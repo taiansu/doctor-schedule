@@ -11,8 +11,21 @@ defmodule Schedule.Month do
     |> Map.new()
   end
 
+  def generate_continuous_reserve(start_day, end_day) do
+    Interval.new(from: start_day, until: end_day, right_open: false)
+    |> Interval.with_step(days: 1)
+    |> Stream.map(fn date -> Timex.to_date(date) end)
+    |> Enum.to_list
+  end
+
+  def generate_reserve_list(year, month, day_list) do
+    Enum.map(day_list, fn(number) ->
+      Timex.parse!("#{year}-#{month}-#{number}", "{YYYY}-{M}-{D}") |> Timex.to_date
+    end)
+  end
+
   def all_points(month_list) do
-    Enum.reduce(month_list, 0, fn day, acc -> day.point + acc end)
+    Enum.reduce(month_list, 0, fn { day, value }, acc -> value.point + acc end)
   end
 
   defp change_points({ date, day }) do
