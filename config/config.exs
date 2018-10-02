@@ -2,6 +2,15 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :schedule, Schedule.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "schedule_repo",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost"
+
+config :schedule, ecto_repos: [Schedule.Repo]
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,

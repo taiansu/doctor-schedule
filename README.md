@@ -37,6 +37,7 @@ cover 班的功能
 agent, genserver to store state
 
 ## todo
-- add phoenix
+- add phoenix?
 - add ecto with sqlite to save data
 - export maps to json?
+- use json to excel converter
