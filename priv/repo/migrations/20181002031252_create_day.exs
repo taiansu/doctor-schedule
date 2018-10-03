@@ -7,6 +7,8 @@ defmodule Schedule.Repo.Migrations.CreateDay do
       add :point, :integer
       add :is_friday, :boolean
       add :is_holiday, :boolean
+      add :resident, :string
+      add :attend, :string
       timestamps()
     end
   end

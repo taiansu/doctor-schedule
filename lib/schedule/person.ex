@@ -6,35 +6,37 @@ defmodule Schedule.Person do
 
   @primary_key {:doctor_id, :id, autogenerate: false}
   schema "people" do
-    field :current_point, :integer, virtual: true, default: 0
-    field :holidays_count, :integer, virtual: true,  default: 0
-    field :max_holidays, :integer, default: 0
-    field :max_point, :integer, default: 8
-    field :reserve_days, { :array, :date}
-    field :weekday_reserve, { :array, :date }
-    field :duty_days, { :array, :date }
-    field :level, :integer
-    field :name, :string
+    field(:current_point, :integer, virtual: true, default: 0)
+    field(:holidays_count, :integer, virtual: true, default: 0)
+    field(:reserve_days, {:array, :date}, virtual: true, default: [])
+    field(:weekday_reserve, {:array, :date}, virtual: true, default: [])
+    field(:duty_days, {:array, :date}, virtual: true, default: [])
+    field(:max_point, :integer, default: 8, virtual: true)
+    field(:max_holiday, :integer, default: 0, virtual: true)
+    field(:level, :integer)
+    field(:name, :string)
+    field(:is_attending, :boolean, default: false)
 
     timestamps()
- end
+  end
 
   def resident_changeset(person, params \\ %{}) do
     person
-    |> cast(params, [:name, :level,:doctor_id, :holidays_count, :max_holidays, :max_point, :reserve_days, :weekday_reserve, :duty_days, :current_point, :holidays_count])
+    |> cast(params, [
+      :name,
+      :level,
+      :doctor_id,
+      :holidays_count,
+      :max_holiday,
+      :max_point,
+      :reserve_days,
+      :weekday_reserve,
+      :duty_days,
+      :current_point,
+      :holidays_count
+    ])
     |> validate_required([:name, :level, :doctor_id])
   end
-
-# defstruct current_point: 0,
-#     holidays_count: 0,
-#  max_holidays: 1,
-#     max_points: 8,
-#     reserve_days: [],
-#     weekday_reserve: [],
-#     duty_days: [],
-#     level: :r1,
-#     name: "",
-#     id: :D0000
 
   def convert_weekday_to_day(person, start_day) do
     pick =
@@ -49,6 +51,7 @@ defmodule Schedule.Person do
 
   def setting_point(total_points, max_point) do
     sum = total_points - max_point
+
     if sum > 0 do
       "everyone on should add more points: #{sum}"
     else
@@ -60,5 +63,4 @@ defmodule Schedule.Person do
   def r2(person), do: %{person | max_point: 6}
   def r3(person), do: %{person | max_point: 5}
   def r4(person), do: %{person | max_point: 4}
-
 end

@@ -2,7 +2,7 @@ defmodule Schedule.MonthServer do
   use GenServer
   alias Schedule.Month
 
-  #callback
+  # callback
   def start_link() do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
@@ -24,11 +24,11 @@ defmodule Schedule.MonthServer do
     {:noreply, Map.put(month, date, new_data)}
   end
 
-  def handle_call({:get_day, date}, _from, months ) do
-    {:reply, Map.get(months, date) , months}
+  def handle_call({:get_day, date}, _from, months) do
+    {:reply, Map.get(months, date), months}
   end
 
   def handle_cast({:reset, default}, month) do
-    {:noreply, Map.merge(month, default )}
+    {:noreply, Map.merge(month, default)}
   end
 end

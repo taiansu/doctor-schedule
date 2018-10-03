@@ -6,21 +6,20 @@ defmodule Schedule.Day do
 
   @primary_key {:date_id, :date, autogenerate: false}
   schema "day" do
-    field :point, :integer, default: 1
-    field :is_holiday, :boolean, default: false
-    field :is_friday, :boolean, default: false
-    belongs_to :resident, Schedule.Resident
-    belongs_to :attending, Schedule.Attending
+    field(:point, :integer, default: 1)
+    field(:is_holiday, :boolean, default: false)
+    field(:is_friday, :boolean, default: false)
+    field(:resident_id, :integer, default: 0, virtual: true)
+    field(:resident, :string)
+    field(:attend_id, :integer, default: 0, virtual: true)
+    field(:attend, :string)
 
     timestamps()
   end
 
-
   def changeset(day, params \\ %{}) do
     day
-    |> cast(params, [:point, :is_friday, :is_holiday])
+    |> cast(params, [:point, :is_friday, :is_holiday, :resident, :attend])
     |> validate_required([:date_id])
   end
-
-
 end

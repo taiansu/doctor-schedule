@@ -6,11 +6,7 @@ defmodule Schedule.Repo.Migrations.CreatePerson do
       add :name, :string
       add :level, :integer
       add :doctor_id, :id, primary: true
-      add :max_holidays, :integer
-      add :max_point, :integer
-      add :reserve_days, {:array, :date}
-      add :weekday_reserve, {:array, :integer}
-      add :duty_days, {:array, :date}
+      add :is_attending, :boolean
       timestamps()
     end
   end

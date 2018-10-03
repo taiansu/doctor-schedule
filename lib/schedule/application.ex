@@ -4,14 +4,14 @@ defmodule Schedule.Application do
   def start(_type, _arges) do
     children = [
       Schedule.Repo,
-      # %{
-      #   id: MonthServer,
-      #   start: {Schedule.MonthServer, :start_link, []}
-      # },
-      # %{
-      #   id: PeopleServer,
-      #   start: {Schedule.PeopleServer, :start_link, []}
-      # }
+      %{
+        id: MonthServer,
+        start: {Schedule.MonthServer, :start_link, []}
+      },
+      %{
+        id: ResidentServer,
+        start: {Schedule.ResidentServer, :start_link, []}
+      }
     ]
 
     options = [
