@@ -28,10 +28,33 @@
 - 不要禮拜幾
 
 
+## 主治醫師
+  - 計算點數(人工)
+  - 指定的日期先排
+  - 先排假日班
+  - 想要的星期幾先排
+  - 指定想排的特定天數
+  - 不可以排不想要的班
+  - 急診班排法；先排值班，值班的隔天不要排急診班
+  - 每個月的點數，一般來說是兩點，從年資高的開始減
+
 進階：
 門診避開(用星期幾), done
 cover 班的功能
 
+
+  """
+  - first, setting up the month, done
+  - setting up all the doctors(a string or a list, pipe into the map with id), done
+  - setting the points for everyone, done
+  - start calculating from the day1
+    - holidays first for all people, done
+    - if all holidays shared by all people then it is done;
+      if there is an extra one//pick from r1/r2
+    - calculate all the rest day
+  - if hit an error, restart again; if restart 100 times, show it was wrong
+  - if it all success, show success, and the result
+  """
 
 ## elixir
 agent, genserver to store state

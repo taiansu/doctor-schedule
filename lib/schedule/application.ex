@@ -11,7 +11,11 @@ defmodule Schedule.Application do
       %{
         id: ResidentServer,
         start: {Schedule.ResidentServer, :start_link, []}
-      }
+      },
+      %{
+        id: AttendingServer,
+        start: {Schedule.AttendingServer, :start_link, []}
+      },
     ]
 
     options = [

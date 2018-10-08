@@ -2,7 +2,6 @@ defmodule Schedule.ResidentServer do
   use GenServer
   alias Schedule.Person
   alias Schedule.Repo
-  import IEx
   import Ecto.Query
 
   def start_link() do

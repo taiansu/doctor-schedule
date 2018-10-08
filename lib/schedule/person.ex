@@ -5,37 +5,44 @@ defmodule Schedule.Person do
   import Ecto.Changeset
 
   @primary_key {:doctor_id, :id, autogenerate: false}
+  @derive {Poison.Encoder, only: [:name, :duty_days]}
   schema "people" do
     field(:current_point, :integer, virtual: true, default: 0)
     field(:holidays_count, :integer, virtual: true, default: 0)
     field(:reserve_days, {:array, :date}, virtual: true, default: [])
     field(:weekday_reserve, {:array, :date}, virtual: true, default: [])
+    field(:weekday_wish, {:array, :integer}, default: [])
+    field(:duty_wish, {:array, :date}, virtual: true, default: [])
     field(:duty_days, {:array, :date}, virtual: true, default: [])
     field(:max_point, :integer, default: 8, virtual: true)
     field(:max_holiday, :integer, default: 0, virtual: true)
     field(:level, :integer)
+    field(:ranking, :integer)
     field(:name, :string)
     field(:is_attending, :boolean, default: false)
 
     timestamps()
   end
 
-  def resident_changeset(person, params \\ %{}) do
+  def person_changeset(person, params \\ %{}) do
     person
     |> cast(params, [
       :name,
       :level,
+      :ranking,
       :doctor_id,
       :holidays_count,
       :max_holiday,
       :max_point,
       :reserve_days,
+      :weekday_wish,
       :weekday_reserve,
       :duty_days,
       :current_point,
-      :holidays_count
+      :holidays_count,
+      :is_attending
     ])
-    |> validate_required([:name, :level, :doctor_id])
+    |> validate_required([:name, :doctor_id, :is_attending])
   end
 
   def convert_weekday_to_day(person, start_day) do
@@ -63,4 +70,5 @@ defmodule Schedule.Person do
   def r2(person), do: %{person | max_point: 6}
   def r3(person), do: %{person | max_point: 5}
   def r4(person), do: %{person | max_point: 4}
+
 end
