@@ -42,11 +42,10 @@ defmodule Schedule.AttendingServer do
 
     new_people = Stream.map(people, fn {key, value} ->
       if value.ranking <= extra_point do
-        new_value = %{ value | max_point: 1}
+        {key, %{ value | max_point: 1}}
       else
-        new_value = %{value | max_point: 2}
+        {key, %{ value | max_point: 2}}
       end
-      {key, new_value}
     end) |> Enum.into(%{})
     {:noreply, Map.merge(people, new_people)}
   end
