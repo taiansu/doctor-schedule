@@ -64,3 +64,5 @@ agent, genserver to store state
 - add ecto with sqlite to save data
 - export maps to json?
 - use json to excel converter
+- add typespec to check/using dialyxir 
+- write test, use ExUnit
