@@ -8,8 +8,8 @@ defmodule Schedule.Calculate do
 
 
   # month setup
-  def set_this_month(date, holidays \\ []) do
-    GenServer.call(MonthServer, {:set_start, date, holidays})
+  def set_this_month(date, holidays \\ [], be_ordinary \\ [], should_be_removed \\[]) do
+    GenServer.call(MonthServer, {:set_start, date, holidays, be_ordinary, should_be_removed})
   end
 
   def reset_month(default) do
@@ -92,6 +92,10 @@ defmodule Schedule.Calculate do
 
   def update_attending(id, new_data) do
     GenServer.cast(AttendingServer, {:update, id, new_data})
+  end
+
+  def remove_attendings(list_ids) do
+    GenServer.cast(AttendingServer, {:remove, list_ids})
   end
 
   def set_max_points(this_month) do
@@ -359,7 +363,7 @@ defmodule Schedule.Calculate do
         |> Interval.duration(:days)
         |> abs
 
-      days_interval <= 2 || acc
+      days_interval <= 3 || acc
     end)
   end
 

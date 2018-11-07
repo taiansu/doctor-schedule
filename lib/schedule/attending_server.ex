@@ -5,6 +5,7 @@ defmodule Schedule.AttendingServer do
   alias Schedule.Month
   import Ecto.Query
 
+
   def start_link() do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
@@ -26,11 +27,18 @@ defmodule Schedule.AttendingServer do
     attendings =
     Repo.all(query)
     |> Map.new(fn attending -> {attending.doctor_id, attending} end)
+
     {:noreply, Map.merge(people, attendings)}
   end
 
   def handle_cast({:update, id, new_data}, people) do
     {:noreply, Map.put(people, id, new_data)}
+  end
+
+  def handle_cast({:remove, list_ids}, people) do
+    attendings = Stream.filter(people, fn {key, value} -> !Enum.member?(list_ids, key) end) |> Enum.into(%{})
+
+    {:noreply, attendings}
   end
 
   def handle_cast({:reset, default}, people) do

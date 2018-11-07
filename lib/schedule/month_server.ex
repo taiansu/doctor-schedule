@@ -11,8 +11,8 @@ defmodule Schedule.MonthServer do
     {:ok, %{}}
   end
 
-  def handle_call({:set_start, date, holidays}, _from, _months) do
-    months = Month.generate_month(date, holidays)
+  def handle_call({:set_start, date, holidays, be_ordinary, should_be_removed}, _from, _months) do
+    months = Month.generate_month(date, holidays, be_ordinary, should_be_removed)
     {:reply, months, months}
   end
 
