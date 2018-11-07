@@ -48,14 +48,17 @@ defmodule Schedule.AttendingServer do
   def handle_cast({:set_max_points, this_month }, people) do
     extra_point = Enum.count(people) * 2 - Month.all_points(this_month)
 
-    new_people = Stream.map(people, fn {key, value} ->
-      if value.ranking <= extra_point do
-        {key, %{ value | max_point: 1}}
-      else
-        {key, %{ value | max_point: 2}}
-      end
-    end) |> Enum.into(%{})
-    {:noreply, Map.merge(people, new_people)}
+    new_people = people
+    |> Stream.map(fn {key, value} -> {key, %{value | max_point: 2}} end)
+    |> Enum.into(%{})
+
+    adjusted = new_people
+    |> Enum.sort_by(fn {key, value} -> value.ranking end)
+    |> Stream.take(extra_point)
+    |> Stream.map(fn {key, value} -> {key, %{value | max_point: 1}} end)
+    |> Enum.into(%{})
+
+    {:noreply, Map.merge(new_people, adjusted)}
   end
 
 
