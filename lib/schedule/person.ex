@@ -13,12 +13,12 @@ defmodule Schedule.Person do
     field(:weekday_reserve, {:array, :date}, virtual: true, default: [])
     field(:weekday_wish, {:array, :integer}, default: [])
     field(:duty_wish, {:array, :date}, virtual: true, default: [])
+    field(:name, :string)
     field(:duty_days, {:array, :date}, virtual: true, default: [])
     field(:max_point, :integer, default: 8, virtual: true)
     field(:max_holiday, :integer, default: 0, virtual: true)
     field(:level, :integer)
     field(:ranking, :integer)
-    field(:name, :string)
     field(:is_attending, :boolean, default: false)
 
     timestamps()
@@ -70,5 +70,4 @@ defmodule Schedule.Person do
   def r2(person), do: %{person | max_point: 6}
   def r3(person), do: %{person | max_point: 5}
   def r4(person), do: %{person | max_point: 4}
-
 end

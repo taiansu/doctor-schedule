@@ -4,7 +4,6 @@ defmodule Schedule.Day do
   import Ecto.Changeset
   # defstruct point: 1, person: :D0000, is_holiday: false, is_friday: false
 
-
   @primary_key {:date_id, :date, autogenerate: false}
   @derive {Poison.Encoder, only: [:date_id, :resident, :attend]}
   schema "day" do
