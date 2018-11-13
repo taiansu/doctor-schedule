@@ -95,17 +95,17 @@ defmodule Schedule.Calculate do
 
 
   # calculate residents
-  def resident_result(0, _people, _month) do
+  def resident_result(_month, _people, 0) do
     {:error, "there is no result"}
   end
 
-  def resident_result(n, default_resident, default_month) do
+  def resident_result(default_month, default_resident, n) do
     if get_current_month() |> filter_no_resident_day() > 0 do
       reset_residents(default_resident)
       reset_month(default_month)
       set_the_holiday(n, :resident)
       set_the_ordinary(n, :resident)
-      resident_result(n - 1, default_resident, default_month)
+      resident_result(default_month, default_resident, n - 1)
       IO.puts("#{n - 1} left")
     else
       {:ok, get_current_month()}
@@ -113,11 +113,11 @@ defmodule Schedule.Calculate do
   end
 
   # calculate attending
-  def attending_result(0, _attending, _month) do
+  def attending_result( _month, _attending, 0) do
     {:error, "there is no result"}
   end
 
-  def attending_result(n, default_attending, default_month) do
+  def attending_result(default_month, default_attending, n) do
     if get_current_month() |> filter_no_attending_day() > 0 do
 
       reset_attendings(default_attending)
@@ -127,7 +127,7 @@ defmodule Schedule.Calculate do
       attending_random_holiday(n)
       attending_wish_day(n, :normal)
       attending_random_ordinary(n)
-      attending_result(n - 1, default_attending, default_month)
+      attending_result(default_month, default_attending, n - 1)
       IO.puts("#{n - 1} left in counting answer")
     else
       {:ok, get_current_month()}
